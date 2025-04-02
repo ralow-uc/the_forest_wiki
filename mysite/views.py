@@ -38,4 +38,16 @@ def consumibles(request):
 def historia(request):
   return render(request, 'historia.html')
 
+def forowiki(request):
+  return render(request, 'forowiki.html')
+
+def registrasewiki(request):
+  return render(request, 'registrase_wiki.html')
+
+def inicio_sesion_wiki(request):
+  return render(request, 'inicio_sesion_wiki.html')
+
+def micuentatf(request):
+  return render(request, 'micuentatf.html')
+
 
