@@ -4,7 +4,8 @@ from .data.pueblos_data import pueblos_data
 from .data.ubicaciones_especificas_data import ubicaciones_especificas_data
 from .data.ubicaciones_variadas_data import ubicaciones_variadas_data
 from .data.animales_data import animales_data
-
+from .data.enemigos_data import enemigos_data
+from .data.construcciones_data import construcciones_data
 
 # Create your views here.
 def home(request):
@@ -29,11 +30,11 @@ def lugarestf(request):
 
 
 def enemigos(request):
-    return render(request, "Enemigos.html")
+    return render(request, "Enemigos.html", {"enemigos": enemigos_data})
 
 
 def construcciones(request):
-    return render(request, "Construcciones.html")
+    return render(request, "Construcciones.html", {"construcciones": construcciones_data})
 
 
 def flora(request):
