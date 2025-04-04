@@ -6,6 +6,12 @@ from .data.ubicaciones_variadas_data import ubicaciones_variadas_data
 from .data.animales_data import animales_data
 from .data.enemigos_data import enemigos_data
 from .data.construcciones_data import construcciones_data
+from .data.armas_data import armas_data
+from .data.flora_data import flora_data
+from .data.consumibles_data import consumibles_data
+from .data.historia_data import historia_slider, historia_texto
+from .data.micuentatf_data import micuentatf_data
+
 
 # Create your views here.
 def home(request):
@@ -38,19 +44,22 @@ def construcciones(request):
 
 
 def flora(request):
-    return render(request, "Flora.html")
+    return render(request, "Flora.html", {"flora": flora_data})
 
 
 def armas(request):
-    return render(request, "Armas.html")
+    return render(request, "Armas.html", {"armas": armas_data})
 
 
 def consumibles(request):
-    return render(request, "Consumibles.html")
+    return render(request, "Consumibles.html", {"consumibles": consumibles_data})
 
 
 def historia(request):
-    return render(request, "historia.html")
+    return render(request, "historia.html", {
+        "historia_slider": historia_slider,
+        "historia_texto": historia_texto
+    })
 
 
 def forowiki(request):
@@ -64,6 +73,5 @@ def registrasewiki(request):
 def inicio_sesion_wiki(request):
     return render(request, "inicio_sesion_wiki.html")
 
-
 def micuentatf(request):
-    return render(request, "micuentatf.html")
+    return render(request, "micuentatf.html", {"micuenta": micuentatf_data})
