@@ -10,10 +10,7 @@ from .data.armas_data import armas_data
 from .data.flora_data import flora_data
 from .data.consumibles_data import consumibles_data
 from .data.historia_data import historia_slider, historia_texto
-from .data.micuentaf_data import micuentaf_data
-
-def micuenta(request):
-    return render(request, "micuentatf.html", {"micuenta": micuentaf_data})
+from .data.micuentatf_data import micuentatf_data
 
 
 # Create your views here.
@@ -76,6 +73,5 @@ def registrasewiki(request):
 def inicio_sesion_wiki(request):
     return render(request, "inicio_sesion_wiki.html")
 
-
 def micuentatf(request):
-    return render(request, "micuentatf.html",{"micuenta": micuentaf_data})
+    return render(request, "micuentatf.html", {"micuenta": micuentatf_data})
