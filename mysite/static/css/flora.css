@@ -2,27 +2,44 @@
    text-align: center;
 }
 
-#fondo1{
-   background-color: black;  
-   background-image: url(imagenes/Fondos/Fondo3.jpg); 
-   background-position: top;
-   background-attachment: fixed;
-   background-repeat: no-repeat;
-   background-size: cover;
-}
 
-#titulo1 {
-   color: #ffc400 ;
-   border: 5px dimgray solid;
+
+#titulo {
+   color: #ffc400;
+   border: 3px dimgray solid;
    border-radius: 100px;
    background-color: black ;
+   margin-top: 20px;
    margin-left: 20%;
    margin-right: 20%;
-   font-family: monospace;
-   margin-bottom: 20px;
+  margin-bottom: 20px;
+   font-family: Georgia;
    text-align: center;
-   margin-top: 40px;
-  }
+}
+
+#fondo{
+  background-color: black;  
+  background-image: url(../img/Fondos/Fondo3.jpg);
+  background-position: top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#caja_bienvenida{
+  background-color: black;
+  margin: auto;
+  margin-top: 20px;
+  border: 3px dimgray solid;
+  border-radius: 5px;   
+  text-align: center; 
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  opacity: 0.85;
+  
+}
 
   #caja_descAnimales{
    background-color: black;
@@ -107,7 +124,14 @@ td,th{
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box;#fondo{
+   background-color: black;  
+   background-image: url(../img/Fondos/Fondo3.jpg);
+   background-position: top;
+   background-attachment: fixed;
+   background-repeat: no-repeat;
+   background-size: cover;
+}
 }
 
 body {
