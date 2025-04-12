@@ -13,6 +13,8 @@ from .views import (
     registrasewiki,
     inicio_sesion_wiki,
     micuentatf,
+    recuperarcontra,
+    registrase
 )
 
 urlpatterns = [
@@ -29,4 +31,7 @@ urlpatterns = [
     path("registrase_wiki", registrasewiki, name="registrasewiki"),
     path("inicio_sesion_wiki", inicio_sesion_wiki, name="inicio_sesion_wiki"),
     path("micuentatf", micuentatf, name="micuentatf"),
+    path("recuperarcontra", recuperarcontra, name="recuperarcontra"),
+    path("registrase", registrase, name="registrase"),
+    
 ]

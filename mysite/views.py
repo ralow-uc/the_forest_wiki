@@ -75,3 +75,9 @@ def inicio_sesion_wiki(request):
 
 def micuentatf(request):
     return render(request, "micuentatf.html", {"micuenta": micuentatf_data})
+
+def recuperarcontra(request):
+    return render(request, "recuperarcontra.html")
+
+def registrase(request):
+    return render(request, "registrase_wiki.html")
