@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 
 from .forms import CustomUserCreationForm
-from .forms import EditUserForm
+from .forms import ConstruccionForm
 from .forms import UserUpdateForm
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -173,3 +173,20 @@ def eliminar_construccion(request, pk):
     construccion.delete()
     messages.success(request, "Construcción eliminada correctamente.")
     return redirect('construcciones')
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_construccion(request, id):
+    construccion = get_object_or_404(Construccion, id=id)
+
+    if request.method == 'POST':
+        form = ConstruccionForm(request.POST, request.FILES, instance=construccion)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Construcción actualizada correctamente.')
+            return redirect('construcciones')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = ConstruccionForm(instance=construccion)
+
+    return render(request, 'editar_construccion.html', {'form': form, 'construccion': construccion})

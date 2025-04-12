@@ -110,6 +110,7 @@
                     </div>
                     {% if request.user.is_staff and edit_mode %}
                     <div class="col border border-secondary fondo-tabla center">
+                      <a href="{% url 'editar_construccion' construccion.id %}" class="btn btn-warning btn-sm">Editar</a>
                       <form method="POST" action="{% url 'eliminar_construccion' construccion.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
