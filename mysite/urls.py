@@ -10,11 +10,11 @@ from .views import (
     consumibles,
     historia,
     forowiki,
-    registrasewiki,
     inicio_sesion_wiki,
     micuentatf,
     recuperarcontra,
-    registrase
+    registrase,
+    cerrar_sesion,
 )
 
 urlpatterns = [
@@ -28,10 +28,9 @@ urlpatterns = [
     path("consumibles", consumibles, name="consumibles"),
     path("historia", historia, name="historia"),
     path("forowiki", forowiki, name="forowiki"),
-    path("registrase_wiki", registrasewiki, name="registrasewiki"),
     path("inicio_sesion_wiki", inicio_sesion_wiki, name="inicio_sesion_wiki"),
     path("micuentatf", micuentatf, name="micuentatf"),
     path("recuperarcontra", recuperarcontra, name="recuperarcontra"),
     path("registrase", registrase, name="registrase"),
-    
+    path("logout", cerrar_sesion, name="logout"),
 ]

@@ -68,19 +68,23 @@
               >Dirección</a
             >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'registrasewiki' %}"
-              >Registrarse</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'inicio_sesion_wiki' %}"
-              >Iniciar sesion</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'micuentatf' %}">Mi Cuenta</a>
-          </li>
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'micuentatf' %}">¡Hola
+                {{ request.user.username }}!
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'registrase' %}">Registrarse</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'inicio_sesion_wiki' %}">Iniciar sesión</a>
+            </li>
+          {% endif %}
         </ul>
         <form class="d-flex" id="separarsearch">
           <input

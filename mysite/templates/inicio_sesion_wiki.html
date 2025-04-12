@@ -40,20 +40,25 @@
             </div>
             <div class="align-self-center w-100 px-lg-5 py-lg-4 p-4">
             <h1 class="font-weight-bold mb-4" id="subir">Bienvenido Ingresa tu Usuario</h1>
-            <form class="mb-5">
+            {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            <form method="POST" class="mb-5">
+              {% csrf_token %}
                 <div class="mb-4">
-                  <label for="exampleInputEmail1" class="form-label font-weight-bold">Email</label>
-                  <input type="email" class="form-control bg-dark-x border-0" id="exampleInputEmail1" placeholder="I" aria-describedby="emailHelp" style="background-color: #ffffff;">
+                  <label for="username" class="form-label font-weight-bold">Usuario</label>
+                  <input type="text" name="username" class="form-control bg-dark-x border-0" id="username" placeholder="Ingresa tu usuario" aria-describedby="emailHelp" style="background-color: #ffffff;">
                 </div>
                 <div class="mb-4">
-                  <label for="exampleInputPassword1" class="form-label font-weight-bold">Contraseña</label>
-                  <input type="password" value="FakePSW" id="myInput" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa tu contraseña" id="exampleInputPassword1" 
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required style="background-color: #ffffff;">
-                  <input type="checkbox" onclick="myFunction()"> Mostrar Contraseña
+                  <label for="password" class="form-label font-weight-bold">Contraseña</label>
+                  <input type="password" name="password" value="FakePSW" id="myInput" class="form-control bg-dark-x border-0 mb-2" placeholder="Ingresa tu contraseña" id="password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required style="background-color: #ffffff;">
+                  <input type="checkbox" id="show-password" onclick="myFunction()"> 
+                  <label for="show-password">Mostrar Contraseña</label>
                   <a href="{% url 'recuperarcontra' %}" id="emailHelp" class="form-text text-muted text-decoration-none">  ¿Has olvidado tu contraseña?</a>                     
                 </div>
-                <a href="{% url 'home' %}" class="button">Iniciar sesion</a>
-
+                <button type="submit" class="button">Iniciar sesion</button>
               </form>
 
 
