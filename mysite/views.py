@@ -11,8 +11,12 @@ from .data.consumibles_data import consumibles_data
 from .data.historia_data import historia_slider, historia_texto
 from .data.micuentatf_data import micuentatf_data
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+
 
 from .forms import CustomUserCreationForm
+from .forms import EditUserForm
+from .forms import UserUpdateForm
 from django.contrib import messages
 from django.contrib.auth import logout
 
@@ -81,10 +85,47 @@ def inicio_sesion_wiki(request):
 
 @login_required
 def micuentatf(request):
-    return render(request, "micuentatf.html", {
-        "micuenta": request.user
-    })
+    edit_mode = request.GET.get("edit") == "true"
+    change_password = request.GET.get("change_password") == "true"
 
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, instance=request.user)
+        current_password = request.POST.get("current_password")
+
+        if not request.user.check_password(current_password):
+            messages.error(request, "Contraseña actual incorrecta.")
+            return redirect("micuentatf")
+
+        if form.is_valid():
+            user = form.save()
+
+            # Verifica si se quieren cambiar las contraseñas
+            new_pass1 = request.POST.get("new_password1")
+            new_pass2 = request.POST.get("new_password2")
+
+            if new_pass1 or new_pass2:
+                if new_pass1 != new_pass2:
+                    messages.error(request, "Las contraseñas no coinciden.")
+                    return redirect("micuentatf?edit=true&change_password=true")
+                else:
+                    user.set_password(new_pass1)
+                    user.save()
+                    update_session_auth_hash(request, user)
+                    messages.success(request, "Datos y contraseña actualizados correctamente.")
+            else:
+                user.save()
+                messages.success(request, "Datos actualizados correctamente.")
+
+            return redirect("micuentatf")
+    else:
+        form = UserUpdateForm(instance=request.user)
+
+    return render(request, "micuentatf.html", {
+        "micuenta": request.user,
+        "form": form,
+        "edit_mode": edit_mode,
+        "change_password": change_password
+    })
 
 def recuperarcontra(request):
     return render(request, "recuperarcontra.html")
