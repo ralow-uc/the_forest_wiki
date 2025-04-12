@@ -15,6 +15,7 @@ from .views import (
     recuperarcontra,
     registrase,
     cerrar_sesion,
+    eliminar_construccion
 )
 
 urlpatterns = [
@@ -33,4 +34,5 @@ urlpatterns = [
     path("recuperarcontra", recuperarcontra, name="recuperarcontra"),
     path("registrase", registrase, name="registrase"),
     path("logout", cerrar_sesion, name="logout"),
+    path('construcciones/eliminar/<int:pk>/', eliminar_construccion, name='eliminar_construccion'),
 ]

@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
+{% with request.GET.edit as edit_mode %}
   <div id="fondo">
     <div class="container">
       <section class="colorl">
@@ -18,9 +18,11 @@
               <h1 id="titulo">Construcciones</h1>
             </div>
             <div class="w-33">
+              {% if request.user.is_staff %}
               <div class="center">
-                <button class="btn btn-dark">Editar</button>
+                <a href="?edit=true" class="btn btn-dark">Editar</a>
               </div>
+              {% endif %}
             </div>
             <div class="center">
               <p id="caja_bienvenida">
@@ -45,36 +47,46 @@
               <div class="margin-tabla">
                 <div class="row">
                   <div
-                    class="d-none d-sm-none d-md-block col-sm-3 border border-secondary fondo-tabla center"
+                    class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center"
                   >
                     <h5>Construccion</h5>
                   </div>
                   <div
-                    class="d-none d-sm-none d-md-block col-sm-3 border border-secondary fondo-tabla center"
+                    class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center"
                   >
                     <h5>Materiales</h5>
                   </div>
                   <div
-                    class="d-none d-sm-none d-md-block col-sm-6 border border-secondary fondo-tabla center"
+                    class="d-none d-sm-none d-md-block col-6 border border-secondary fondo-tabla center"
                   >
                     <h5>Descripcion</h5>
                   </div>
+                  {% if request.user.is_staff and edit_mode %}
+                  <div class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center">
+                    <h5>Acciones</h5>
+                  </div>
+                  {% endif %}
                 </div>
                 <div class="letra">
                   {% for construccion in construcciones %}
                   <div class="row">
                     <div
-                      class="col-sm-3 border border-secondary fondo-tabla center"
+                      class="col border border-secondary fondo-tabla center"
                     >
                       <p class="center-titulo">
+                        {% if construccion.imagen %}
                         <img
                           src="{{ construccion.imagen.url }}"
                           alt="{{ construccion.nombre }}"
                           class="imagen img-fluid"
-                        /><br />{{ construccion.nombre }}
+                        />
+                      {% else %}
+                        Sin imagen
+                      {% endif %}
+                      <br />{{ construccion.nombre }}
                       </p>
                     </div>
-                    <div class="col-sm-3 border border-secondary fondo-tabla">
+                    <div class="col border border-secondary fondo-tabla">
                       <ol>
                         {% for material in construccion.get_materiales_list %}
                         <li class="lil">{{ material }}</li>
@@ -82,10 +94,18 @@
                       </ol>
                     </div>
                     <div
-                      class="col-sm-6 border border-secondary fondo-tabla center"
+                      class="col-6 border border-secondary fondo-tabla center"
                     >
                       <p>{{ construccion.descripcion }}</p>
                     </div>
+                    {% if request.user.is_staff and edit_mode %}
+                    <div class="col border border-secondary fondo-tabla center">
+                      <form method="POST" action="{% url 'eliminar_construccion' construccion.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                      </form>
+                    </div>
+                    {% endif %}
                   </div>
                   {% endfor %}
                 </div>
@@ -100,5 +120,6 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    {% endwith %}
   </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .data.cards_data import cards_data
 from .data.pueblos_data import pueblos_data
 from .data.ubicaciones_especificas_data import ubicaciones_especificas_data
@@ -10,9 +10,8 @@ from .data.flora_data import flora_data
 from .data.consumibles_data import consumibles_data
 from .data.historia_data import historia_slider, historia_texto
 from .data.micuentatf_data import micuentatf_data
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
-
 
 from .forms import CustomUserCreationForm
 from .forms import EditUserForm
@@ -167,3 +166,9 @@ def inicio_sesion_wiki(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect("inicio_sesion_wiki")
+
+@user_passes_test(lambda u: u.is_staff)
+def eliminar_construccion(request, pk):
+    construccion = get_object_or_404(Construccion, pk=pk)
+    construccion.delete()
+    return redirect('construcciones')
