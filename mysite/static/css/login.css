@@ -60,13 +60,13 @@ body {
 }
 
 .img-1 {
-    background-image: url(../img_wiki/fondo_theforest.jpg);
+    background-image: url(../img/img_wiki/fondo_theforest.jpg);
     background-size: cover;
     background-position: center;
 }
 
 .img-2 {
-    background-image: url(../img_wiki/Fondo3.jpg);
+    background-image: url(../img/img_wiki/Fondo3.jpg);
     background-size: cover;
     background-position: center;
 }
