@@ -12,6 +12,9 @@ from .data.consumibles_data import consumibles_data
 from .data.historia_data import historia_slider, historia_texto
 from .data.micuentatf_data import micuentatf_data
 
+# Importación de Modelos
+from .models import Construccion
+
 
 # Create your views here.
 def home(request):
@@ -40,7 +43,8 @@ def enemigos(request):
 
 
 def construcciones(request):
-    return render(request, "Construcciones.html", {"construcciones": construcciones_data})
+    construcciones = Construccion.objects.all()
+    return render(request, "Construcciones.html", {"construcciones": construcciones})
 
 
 def flora(request):

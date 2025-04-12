@@ -68,15 +68,15 @@
                     >
                       <p class="center-titulo">
                         <img
-                          src="{% static construccion.imagen %}"
-                          alt=""
+                          src="{{ construccion.imagen.url }}"
+                          alt="{{ construccion.nombre }}"
                           class="imagen img-fluid"
                         /><br />{{ construccion.nombre }}
                       </p>
                     </div>
                     <div class="col-sm-3 border border-secondary fondo-tabla">
                       <ol>
-                        {% for material in construccion.materiales %}
+                        {% for material in construccion.get_materiales_list %}
                         <li class="lil">{{ material }}</li>
                         {% endfor %}
                       </ol>
