@@ -171,4 +171,5 @@ def cerrar_sesion(request):
 def eliminar_construccion(request, pk):
     construccion = get_object_or_404(Construccion, pk=pk)
     construccion.delete()
+    messages.success(request, "Construcción eliminada correctamente.")
     return redirect('construcciones')
