@@ -40,23 +40,66 @@
                 </div>
                 <div class="align-self-center w-100 px-lg-5 py-lg-4 p-4">
                 <h1 class="font-weight-bold mb-4" id="subir">Ingrese sus Datos</h1>
-                <form class="mb-5">
-                    <div class="mb-4">
-                      <label for="exampleInputEmail1" class="form-label font-weight-bold">Email</label>
-                      <input type="email" class="form-control bg-dark-x border-0" id="exampleInputEmail1" placeholder="nombre@ejemplo.com" aria-describedby="emailHelp" style="background-color: #ffffff;">
+                <form method="post" class="mb-5">
+                  {% csrf_token %}
+                
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="alert alert-success">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                
+                  {% if form.errors %}
+                    <div class="alert alert-danger">
+                      {{ form.errors }}
                     </div>
-                    <div class="mb-4">
-                      <label for="exampleInputEmail1" class="form-label font-weight-bold">Contraseña</label>
-                      <input type="email" class="form-control bg-dark-x border-0" id="exampleInputEmail1" placeholder="Ingrese su contraseña" aria-describedby="emailHelp" style="background-color: #ffffff;">
-
-                    </div>
-                    <div class="mb-4">
-                      <label for="exampleInputEmail1" class="form-label font-weight-bold">Confirme su contraseña</label>
-                      <input type="email" class="form-control bg-dark-x border-0" id="exampleInputEmail1" placeholder="Vuelva a ingresar su contraseña" aria-describedby="emailHelp" style="background-color: #ffffff;">
-
-                    </div>
-                      <a href="{% url 'home' %}" class="button">Crear cuenta</a>
-                  </form>
+                  {% endif %}
+                
+                  <div class="mb-4">
+                    <label for="id_username" class="form-label font-weight-bold">Nombre de Usuario</label>
+                    <input type="text" name="username" id="id_username"
+                           class="form-control border-0"
+                           style="background-color: #ffffff;"
+                           placeholder="Nombre de Usuario"
+                           required>
+                  </div>
+                
+                  <div class="mb-4">
+                    <label for="id_email" class="form-label font-weight-bold">Email</label>
+                    <input type="email" name="email" id="id_email"
+                           class="form-control border-0"
+                           style="background-color: #ffffff;"
+                           placeholder="nombre@ejemplo.com"
+                           required>
+                  </div>
+                
+                  <div class="mb-4">
+                    <label for="id_password1" class="form-label font-weight-bold">Contraseña</label>
+                    <input type="password" name="password1" id="id_password1"
+                           class="form-control border-0"
+                           style="background-color: #ffffff;"
+                           placeholder="Ingrese su contraseña"
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                           title="Debe contener al menos una mayúscula, una minúscula, un número y mínimo 8 caracteres"
+                           required>
+                  </div>
+                
+                  <div class="mb-4">
+                    <label for="id_password2" class="form-label font-weight-bold">Confirmar Contraseña</label>
+                    <input type="password" name="password2" id="id_password2"
+                           class="form-control border-0"
+                           style="background-color: #ffffff;"
+                           placeholder="Vuelve a escribir la contraseña"
+                           required>
+                  </div>
+                
+                  <button type="submit" class="button">Crear cuenta</button>
+                </form>
+                
+                
+                
 
 
                 </div>

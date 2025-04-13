@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mysite',
 ]
+AUTH_USER_MODEL = 'mysite.Usuario'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,11 +79,13 @@ WSGI_APPLICATION = 'the_forest_wiki.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'localhost:1521/FREEPDB1',
-        'USER': 'system',
-        'PASSWORD': 'Ora1234',
+        'NAME': 'localhost:1521/XEPDB1',  # Este es el FORMATO CORRECTO con service name
+        'USER': 'forest',
+        'PASSWORD': 'forest123',
     }
 }
+
+
 
 
 # Password validation
@@ -130,3 +133,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Redirecciones después de iniciar y cerrar sesión
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'

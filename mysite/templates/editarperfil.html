@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Editar Perfil - The Forest Wiki{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="bg-dark">
+  <section>
+    <div class="row g-0">
+      <div class="col-lg-7 d-none d-lg-block">
+        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item img-1 min-vh-100 active">
+              <div class="carousel-caption d-none d-md-block">
+                <h5 class="font-weight-bold">Wikipedia de The Forest</h5>
+                <a class="text-muted text-decoration-none">Edita tu perfil</a>
+              </div>
+            </div>
+            <div class="carousel-item img-2 min-vh-100">
+              <div class="carousel-caption d-none d-md-block">
+                <h5 class="font-weight-bold">Mantén tu cuenta al día</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 bg-dark d-flex flex-column align-items-end min-vh-100">
+        <div class="px-lg-5 pt-lg-4 pb-lg-3 p-4 mb-auto w-100"></div>
+        <div class="align-self-center w-100 px-lg-5 py-lg-4 p-4">
+          <h1 class="font-weight-bold mb-4">Editar Perfil</h1>
+          <form method="post" action="{% url 'editar_perfil' %}">
+
+            {% csrf_token %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+            <div class="mb-4">
+              <label for="username" class="form-label font-weight-bold">Nombre de Usuario</label>
+              <input type="text" name="username" id="username"
+                     class="form-control bg-dark-x border-0"
+                     value="{{ request.user.username }}"
+                     style="background-color: #ffffff;" required>
+            </div>
+
+            <div class="mb-4">
+              <label for="email" class="form-label font-weight-bold">Email</label>
+              <input type="email" name="email" id="email"
+                     class="form-control bg-dark-x border-0"
+                     value="{{ request.user.email }}"
+                     style="background-color: #ffffff;" required>
+            </div>
+
+            <div class="mb-4">
+              <label for="password1" class="form-label font-weight-bold">Nueva Contraseña</label>
+              <input type="password" name="password1" id="password1"
+                     class="form-control bg-dark-x border-0"
+                     placeholder="Deja en blanco si no deseas cambiarla"
+                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                     title="Debe contener al menos un número, una mayúscula, una minúscula y mínimo 8 caracteres"
+                     style="background-color: #ffffff;">
+            </div>
+
+            <div class="mb-4">
+              <label for="password2" class="form-label font-weight-bold">Confirmar Contraseña</label>
+              <input type="password" name="password2" id="password2"
+                     class="form-control bg-dark-x border-0"
+                     placeholder="Repita la nueva contraseña"
+                     style="background-color: #ffffff;">
+            </div>
+
+            <button type="submit" class="button">Guardar Cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

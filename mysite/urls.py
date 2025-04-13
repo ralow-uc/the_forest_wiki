@@ -1,20 +1,13 @@
 from django.urls import path
+from mysite.views import UsuarioLoginView
+from mysite import views
+from django.contrib.auth.views import LogoutView
+
 from .views import (
-    home,
-    animales,
-    lugarestf,
-    enemigos,
-    construcciones,
-    flora,
-    armas,
-    consumibles,
-    historia,
-    forowiki,
-    registrasewiki,
-    inicio_sesion_wiki,
-    micuentatf,
-    recuperarcontra,
-    registrase
+    home, animales, lugarestf, enemigos, construcciones, flora,
+    armas, consumibles, historia, forowiki, registrasewiki,
+    inicio_sesion_wiki, micuentatf, recuperarcontra,
+    UsuarioLoginView
 )
 
 urlpatterns = [
@@ -28,10 +21,13 @@ urlpatterns = [
     path("consumibles", consumibles, name="consumibles"),
     path("historia", historia, name="historia"),
     path("forowiki", forowiki, name="forowiki"),
-    path("registrase_wiki", registrasewiki, name="registrasewiki"),
     path("inicio_sesion_wiki", inicio_sesion_wiki, name="inicio_sesion_wiki"),
     path("micuentatf", micuentatf, name="micuentatf"),
     path("recuperarcontra", recuperarcontra, name="recuperarcontra"),
-    path("registrase", registrase, name="registrase"),
-    
+    path('login/', UsuarioLoginView.as_view(), name='login'),
+    path('registrase_wiki/', registrasewiki, name='registrasewiki'),
+    path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
+    path('editar_perfil/', views.editarperfil, name='editar_perfil'),
+
+
 ]
