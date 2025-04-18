@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lugares - The Forest Wiki{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/lugares.css' %}" />
+{% endblock %}
+
+{% block content %}
+{% with request.GET.edit as edit_mode %}
+<div id="fondo1">
+  <center>
+    <h1 id="titulo1">Lugares</h1>
+  </center>
+  <div class="container">
+    <section class="color2 letra">
+      <div class="d-flex justify-content-end align-items-center mt-4 mb-3">
+        {% if request.user.is_staff %}
+          <div class="d-flex gap-2">
+            <a href="?edit=true" class="btn btn-dark">Editar</a>
+            <a href="{% url 'crear_lugar' %}" class="btn btn-dark">Crear</a>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if messages %}
+        <div class="px-3 mt-3">
+          {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          {% for lugar in lugares %}
+          <div class="col">
+            <div class="card h-100" style="background-color: rgba(0, 0, 0, 0.541)">
+              {% if lugar.imagen %}
+              <img src="{{ lugar.imagen.url }}" class="card-img-top" alt="{{ lugar.nombre }}" />
+              {% else %}
+              <div class="card-img-top text-center text-light pt-4" style="height: 200px;">Sin imagen</div>
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">{{ lugar.nombre }}</h5>
+                <p class="card-text">{{ lugar.descripcion }}</p>
+              </div>
+              {% if request.user.is_staff and edit_mode %}
+              <div class="card-footer d-flex justify-content-between">
+                <a href="{% url 'editar_lugar' lugar.id %}" class="btn btn-warning btn-sm">Editar</a>
+                <form method="POST" action="{% url 'eliminar_lugar' lugar.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+{% endwith %}
+{% endblock %}

@@ -1,6 +1,6 @@
 cards_data = [
     {"title": "Animales", "image": "img/img_wiki/animal2.png", "url": "animales"},
-    {"title": "Mapa", "image": "img/img_wiki/mapaforest1.png", "url": "lugarestf"},
+    {"title": "Mapa", "image": "img/img_wiki/mapaforest1.png", "url": "lugares_view"},
     {
         "title": "Enemigos",
         "image": "img/img_wiki/enemigosforest1.png",
@@ -13,10 +13,5 @@ cards_data = [
     },
     {"title": "Plantas", "image": "img/img_wiki/plantaforest.png", "url": "flora"},
     {"title": "Armas", "image": "img/img_wiki/armasthf1.png", "url": "armas"},
-    {
-        "title": "Consumibles",
-        "image": "img/img_wiki/consumibles.png",
-        "url": "consumibles",
-    },
     {"title": "Historia", "image": "img/img_wiki/Storytf.png", "url": "historia"},
 ]
