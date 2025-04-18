@@ -19,8 +19,9 @@
             </div>
             <div class="w-33">
               {% if request.user.is_staff %}
-              <div class="center">
+              <div class="d-flex justify-content-end gap-2">
                 <a href="?edit=true" class="btn btn-dark">Editar</a>
+                <a href="{% url 'crear_construccion' %}" class="btn btn-dark">Crear</a>
               </div>
               {% endif %}
             </div>
@@ -109,7 +110,7 @@
                       <p>{{ construccion.descripcion }}</p>
                     </div>
                     {% if request.user.is_staff and edit_mode %}
-                    <div class="col border border-secondary fondo-tabla center">
+                    <div class="col border border-secondary fondo-tabla center d-flex gap-2">
                       <a href="{% url 'editar_construccion' construccion.id %}" class="btn btn-warning btn-sm">Editar</a>
                       <form method="POST" action="{% url 'eliminar_construccion' construccion.id %}">
                         {% csrf_token %}

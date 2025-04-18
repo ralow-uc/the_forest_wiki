@@ -17,6 +17,7 @@ from .views import (
     cerrar_sesion,
     eliminar_construccion,
     editar_construccion,
+    crear_construccion,
 )
 
 urlpatterns = [
@@ -37,4 +38,5 @@ urlpatterns = [
     path("logout", cerrar_sesion, name="logout"),
     path('construcciones/eliminar/<int:pk>/', eliminar_construccion, name='eliminar_construccion'),
     path('construccion/<int:id>/editar/', editar_construccion, name='editar_construccion'),
+    path('construccion/crear/', crear_construccion, name='crear_construccion'),
 ]

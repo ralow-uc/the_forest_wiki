@@ -190,3 +190,18 @@ def editar_construccion(request, id):
         form = ConstruccionForm(instance=construccion)
 
     return render(request, 'editar_construccion.html', {'form': form, 'construccion': construccion})
+
+@user_passes_test(lambda u: u.is_staff)
+def crear_construccion(request):
+    if request.method == 'POST':
+        form = ConstruccionForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Construcción creada exitosamente.')
+            return redirect('construcciones')
+        else:
+            messages.error(request, 'Corrige los errores en el formulario.')
+    else:
+        form = ConstruccionForm()
+
+    return render(request, 'crear_construccion.html', {'form': form})

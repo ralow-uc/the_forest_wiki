@@ -76,27 +76,27 @@ WSGI_APPLICATION = 'the_forest_wiki.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # Conexion local con Docker
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.oracle',
-#         'NAME': 'localhost:1521/FREEPDB1',
-#         'USER': 'system',
-#         'PASSWORD': 'Ora1234',
-#     }
-# }
-
-# Conexion a Oracle Cloud
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-santiago-1.oraclecloud.com))(connect_data=(service_name=g695533c0d6424e_rntx3co43u3m0wpt_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=no)))',
-        'USER': 'admin',
-        'PASSWORD': 'Oracle123456',
-        'OPTIONS': {
-            'wallet_location': os.path.join(BASE_DIR, 'oracle_wallet')
-        }
+        'NAME': 'localhost:1521/FREEPDB1',
+        'USER': 'system',
+        'PASSWORD': 'Ora1234',
     }
 }
+
+# Conexion a Oracle Cloud
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.oracle',
+#         'NAME': '(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.sa-santiago-1.oraclecloud.com))(connect_data=(service_name=g695533c0d6424e_rntx3co43u3m0wpt_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=no)))',
+#         'USER': 'admin',
+#         'PASSWORD': 'Oracle123456',
+#         'OPTIONS': {
+#             'wallet_location': os.path.join(BASE_DIR, 'oracle_wallet')
+#         }
+#     }
+# }
 
 
 # Password validation
