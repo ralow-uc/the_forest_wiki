@@ -7,6 +7,7 @@ from .data.historia_data import historia_slider, historia_texto
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
+import requests
 
 from .forms import (
     CustomUserCreationForm,
@@ -452,3 +453,11 @@ def recuperarcontra(request):
             messages.error(request, "No se encontró un usuario con ese correo.")
             return redirect('recuperarcontra')
     return render(request, "recuperarcontra.html")
+
+def obtener_consejo():
+    try:
+        response = requests.get("https://api.adviceslip.com/advice", timeout=3)
+        data = response.json()
+        return data.get("slip", {}).get("advice", "Consejo no disponible.")
+    except:
+        return "Consejo no disponible."
