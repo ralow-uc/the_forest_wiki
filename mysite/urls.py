@@ -2,7 +2,6 @@ from django.urls import path
 from .views import (
     home,
     enemigos,
-    armas,
     consumibles,
     historia,
     forowiki,
@@ -30,13 +29,16 @@ from .views import (
     crear_flora,
     editar_flora,
     eliminar_flora,
+    armas,
+    crear_arma,
+    editar_arma,
+    eliminar_arma,
 )
 
 urlpatterns = [
     path("", home, name="home"),
     path("enemigos", enemigos, name="enemigos"),
     path("flora", flora, name="flora"),
-    path("armas", armas, name="armas"),
     path("consumibles", consumibles, name="consumibles"),
     path("historia", historia, name="historia"),
     path("forowiki", forowiki, name="forowiki"),
@@ -65,4 +67,8 @@ urlpatterns = [
     path("flora/crear", crear_flora, name="crear_flora"),
     path("flora/editar/<int:flora_id>", editar_flora, name="editar_flora"),
     path("flora/eliminar/<int:flora_id>", eliminar_flora, name="eliminar_flora"),
+    path('armas', armas, name='armas'),
+    path('armas/crear', crear_arma, name='crear_arma'),
+    path('armas/editar/<int:arma_id>', editar_arma, name='editar_arma'),
+    path('armas/eliminar/<int:arma_id>', eliminar_arma, name='eliminar_arma'),
 ]

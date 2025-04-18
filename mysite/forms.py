@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from mysite.models import Construccion, Animal, Lugar, Enemigo, Flora
+from mysite.models import Construccion, Animal, Lugar, Enemigo, Flora, Arma
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -87,3 +87,14 @@ class FloraForm(forms.ModelForm):
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
+class ArmaForm(forms.ModelForm):
+    class Meta:
+        model = Arma
+        fields = ['nombre', 'tipo', 'descripcion', 'imagen']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'})
+        }
+        
