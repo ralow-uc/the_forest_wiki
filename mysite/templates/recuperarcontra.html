@@ -40,14 +40,15 @@
                 </div>
                 <div class="align-self-center w-100 px-lg-5 py-lg-4 p-4">
                 <h1 class="font-weight-bold mb-4" id="subir">Recuperar contraseña</h1>
-                <form class="mb-5">
+                <form method="POST" class="mb-5">
+                  {% csrf_token %}
                     <div class="mb-4">
                       <label for="exampleInputEmail1" class="form-label font-weight-bold">Email</label>
-                      <input type="email" class="form-control bg-dark-x border-0" id="exampleInputEmail1" placeholder="Ingresa tu email de recuperación" aria-describedby="emailHelp" style="background-color: #ffffff;">
+                      <input type="email" name="email" class="form-control bg-dark-x border-0" id="exampleInputEmail1" placeholder="Ingresa tu email de recuperación" aria-describedby="emailHelp" style="background-color: #ffffff;">
                     </div>
 
                     
-                      <a href="menuprincipal_wiki.html" class="button">Continuar</a>
+                    <button type="submit" class="button">Continuar</button>
                   </form>
 
 

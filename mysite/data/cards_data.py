@@ -13,10 +13,5 @@ cards_data = [
     },
     {"title": "Plantas", "image": "img/img_wiki/plantaforest.png", "url": "flora"},
     {"title": "Armas", "image": "img/img_wiki/armasthf1.png", "url": "armas"},
-    {
-        "title": "Consumibles",
-        "image": "img/img_wiki/consumibles.png",
-        "url": "consumibles",
-    },
     {"title": "Historia", "image": "img/img_wiki/Storytf.png", "url": "historia"},
 ]

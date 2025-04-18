@@ -6,6 +6,7 @@ from .data.consumibles_data import consumibles_data
 from .data.historia_data import historia_slider, historia_texto
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.models import User
 
 from .forms import (
     CustomUserCreationForm,
@@ -437,3 +438,17 @@ def eliminar_arma(request, arma_id):
     arma.delete()
     messages.success(request, "Arma eliminada correctamente.")
     return redirect("armas")
+
+def recuperarcontra(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            user.set_password('TemporalPass777')
+            user.save()
+            messages.success(request, f"Envío de email simulado. Su nueva contraseña es: TemporalPass777")
+            return redirect('inicio_sesion_wiki')
+        except User.DoesNotExist:
+            messages.error(request, "No se encontró un usuario con ese correo.")
+            return redirect('recuperarcontra')
+    return render(request, "recuperarcontra.html")
