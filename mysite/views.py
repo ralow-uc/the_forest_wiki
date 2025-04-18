@@ -13,15 +13,13 @@ from .data.micuentatf_data import micuentatf_data
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 
-from .forms import CustomUserCreationForm
-from .forms import ConstruccionForm
-from .forms import UserUpdateForm
+from .forms import CustomUserCreationForm, ConstruccionForm, UserUpdateForm, AnimalForm, LugarForm
 from django.contrib import messages
 from django.contrib.auth import logout
 
 
 # Importación de Modelos
-from .models import Construccion
+from .models import Construccion, Animal, Lugar
 
 
 @login_required
@@ -33,26 +31,8 @@ def animales(request):
     return render(request, "Animales.html", {"animales": animales_data})
 
 @login_required
-def lugarestf(request):
-
-    return render(
-        request,
-        "Lugarestf.html",
-        {
-            "pueblos": pueblos_data,
-            "ubicaciones_especificas": ubicaciones_especificas_data,
-            "ubicaciones_variadas": ubicaciones_variadas_data,
-        },
-    )
-
-@login_required
 def enemigos(request):
     return render(request, "Enemigos.html", {"enemigos": enemigos_data})
-
-@login_required
-def construcciones(request):
-    construcciones = Construccion.objects.all()
-    return render(request, "Construcciones.html", {"construcciones": construcciones})
 
 @login_required
 def flora(request):
@@ -167,6 +147,13 @@ def cerrar_sesion(request):
     logout(request)
     return redirect("inicio_sesion_wiki")
 
+
+# Funciones para Construcciones
+@login_required
+def construcciones(request):
+    construcciones = Construccion.objects.all()
+    return render(request, "Construcciones.html", {"construcciones": construcciones})
+
 @user_passes_test(lambda u: u.is_staff)
 def eliminar_construccion(request, pk):
     construccion = get_object_or_404(Construccion, pk=pk)
@@ -205,3 +192,88 @@ def crear_construccion(request):
         form = ConstruccionForm()
 
     return render(request, 'crear_construccion.html', {'form': form})
+
+# Funciones para Animales
+def animales(request):
+    animales = Animal.objects.all()
+    edit_mode = request.GET.get("edit") == "true"
+    return render(request, "animales.html", {
+        "animales": animales,
+        "edit_mode": edit_mode,
+    })
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def crear_animal(request):
+    if request.method == "POST":
+        form = AnimalForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "¡Animal creado exitosamente!")
+            return redirect("animales")
+    else:
+        form = AnimalForm()
+    return render(request, "crear_animal.html", {"form": form})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def editar_animal(request, animal_id):
+    animal = Animal.objects.get(pk=animal_id)
+    if request.method == "POST":
+        form = AnimalForm(request.POST, request.FILES, instance=animal)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "¡Animal actualizado exitosamente!")
+            return redirect("animales")
+    else:
+        form = AnimalForm(instance=animal)
+    return render(request, "editar_animal.html", {"form": form, "animal": animal})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def eliminar_animal(request, animal_id):
+    animal = Animal.objects.get(pk=animal_id)
+    if request.method == "POST":
+        animal.delete()
+        messages.success(request, "Animal eliminado correctamente.")
+        return redirect("animales")
+
+def lugares_view(request):
+    lugares = Lugar.objects.all()
+    edit_mode = request.GET.get("edit") == "true"
+    return render(request, "lugares.html", {
+        "lugares": lugares,
+        "edit_mode": edit_mode
+    })
+
+@user_passes_test(lambda u: u.is_staff)
+def crear_lugar(request):
+    if request.method == "POST":
+        form = LugarForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Lugar creado exitosamente.")
+            return redirect("lugares_view")
+    else:
+        form = LugarForm()
+    return render(request, "crear_lugar.html", {"form": form})
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_lugar(request, lugar_id):
+    lugar = get_object_or_404(Lugar, id=lugar_id)
+    if request.method == "POST":
+        form = LugarForm(request.POST, request.FILES, instance=lugar)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Lugar actualizado correctamente.")
+            return redirect("lugares_view")
+    else:
+        form = LugarForm(instance=lugar)
+    return render(request, "editar_lugar.html", {"form": form, "lugar": lugar})
+
+@user_passes_test(lambda u: u.is_staff)
+def eliminar_lugar(request, lugar_id):
+    lugar = get_object_or_404(Lugar, id=lugar_id)
+    lugar.delete()
+    messages.success(request, "Lugar eliminado correctamente.")
+    return redirect("lugares_view")

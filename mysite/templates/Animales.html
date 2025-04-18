@@ -1,93 +1,113 @@
 {% extends 'base.html' %} 
 {% load static %}
 
-{% block title %}Animales-The forest Wiki{% endblock%} 
+{% block title %}Animales - The Forest Wiki{% endblock %} 
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/Enemigos.css' %}" />
 {% endblock %}
 
 {% block content %}
+{% with request.GET.edit as edit_mode %}
 <div id="fondo">
-  <section class="colorl">
-    <div class="letra">
-      <div class="container">
-        <div class="center-titulo">
-          <h1 id="titulo">Animales</h1>
-        </div>
+  <div class="container">
+    <section class="colorl">
+      <div class="letra">
         <div class="container">
-          <div class="w-33">
-            <div class="center">
-              <button class="btn btn-dark">Editar</button>
-            </div>
+          <div class="center-titulo">
+            <h1 id="titulo">Animales</h1>
           </div>
-          <div class="center">
+
+          {% if request.user.is_staff %}
+          <div class="d-flex justify-content-end gap-2">
+            <a href="?edit=true" class="btn btn-dark">Editar</a>
+            <a href="{% url 'crear_animal' %}" class="btn btn-dark">Crear</a>
+          </div>
+          {% endif %}
+
+          <div class="center mt-3">
             <p id="caja_bienvenida">
               La península de The Forest está poblada de muchos tipos diferentes
-              de animales . Estos animales se convierten en una parte esencial
-              de la supervivencia del jugador ya que algunos de ellos pueden ser
-              explotados para obtener comida , piel u otros materiales de
-              artesanía .
+              de animales. Estos animales se convierten en una parte esencial
+              de la supervivencia del jugador, ya que algunos de ellos pueden ser
+              explotados para obtener comida, piel u otros materiales de artesanía.
             </p>
           </div>
-        </div>
-      </div>
-      <div class="container">
-        <div class="d-block d-sm-block d-md-none">
-          <h5 class="center margin-tabla">Orden de datos:</h5>
 
-          <p class="center">
-            1er bloque = Animal<br />2do bloque = Hostilidad animal<br />3er
-            bloque = Descripcion
-          </p>
-        </div>
-        <div class="margin-tabla">
-          <div class="row">
-            <div
-              class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
-            >
-              <h5>Animal</h5>
-            </div>
-            <div
-              class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
-            >
-              <h5>Hostilidad animal</h5>
-            </div>
-            <div
-              class="d-none d-sm-none d-md-block col-sm-4 border border-secondary fondo-tabla center"
-            >
-              <h5>Descripcion</h5>
-            </div>
-          </div>
-          <div class="letra">
-            {% for animal in animales %}
-            <div class="row">
-              <div
-                class="col-sm-4 border border-secondary fondo-tabla center separar-arriba"
-              >
-                <p class="centrart">
-                  <img
-                    src="{% static animal.imagen %}"
-                    alt="{{ animal.nombre }}"
-                    class="imagen img-fluid centrart"
-                  /><br />
-                  {{ animal.nombre }}
-                </p>
+          {% if messages %}
+          <div class="px-3 mt-3">
+            {% for message in messages %}
+              <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
-              <div class="col-sm-4 border border-secondary fondo-tabla center">
-                <p class="center-titulo tamannioletrat">
-                  {{ animal.hostilidad }}
-                </p>
-              </div>
-              <div class="col-sm-4 border border-secondary fondo-tabla center">
-                <p>{{ animal.descripcion }}</p>
-              </div>
-            </div>
             {% endfor %}
           </div>
+          {% endif %}
+
+          <div class="container">
+            <div class="d-block d-sm-block d-md-none">
+              <h5 class="center margin-tabla">Orden de datos:</h5>
+              <p class="center">
+                1er bloque = Animal<br />
+                2do bloque = Hostilidad animal<br />
+                3er bloque = Descripción
+              </p>
+            </div>
+
+            <div class="margin-tabla">
+              <div class="row">
+                <div class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center">
+                  <h5>Animal</h5>
+                </div>
+                <div class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center">
+                  <h5>Hostilidad</h5>
+                </div>
+                <div class="d-none d-sm-none d-md-block col-6 border border-secondary fondo-tabla center">
+                  <h5>Descripción</h5>
+                </div>
+                {% if request.user.is_staff and edit_mode %}
+                <div class="d-none d-sm-none d-md-block col border border-secondary fondo-tabla center">
+                  <h5>Acciones</h5>
+                </div>
+                {% endif %}
+              </div>
+
+              {% for animal in animales %}
+              <div class="row">
+                <div class="col border border-secondary fondo-tabla center">
+                  <p class="center-titulo">
+                    {% if animal.imagen %}
+                      <img src="{{ animal.imagen.url }}" alt="{{ animal.nombre }}" class="imagen img-fluid" />
+                    {% else %}
+                      Sin imagen
+                    {% endif %}
+                    <br />{{ animal.nombre }}
+                  </p>
+                </div>
+                <div class="col border border-secondary fondo-tabla center">
+                  <p class="center-titulo">{{ animal.hostilidad }}</p>
+                </div>
+                <div class="col-6 border border-secondary fondo-tabla center">
+                  <p>{{ animal.descripcion }}</p>
+                </div>
+                {% if request.user.is_staff and edit_mode %}
+                <div class="col border border-secondary fondo-tabla center d-flex gap-2">
+                  <a href="{% url 'editar_animal' animal.id %}" class="btn btn-warning btn-sm">Editar</a>
+                  <form method="POST" action="{% url 'eliminar_animal' animal.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                  </form>
+                </div>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
+{% endwith %}
 {% endblock %}
