@@ -1,25 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .data.cards_data import cards_data
-from .data.pueblos_data import pueblos_data
-from .data.ubicaciones_especificas_data import ubicaciones_especificas_data
-from .data.ubicaciones_variadas_data import ubicaciones_variadas_data
 from .data.animales_data import animales_data
-from .data.enemigos_data import enemigos_data
 from .data.armas_data import armas_data
-from .data.flora_data import flora_data
 from .data.consumibles_data import consumibles_data
 from .data.historia_data import historia_slider, historia_texto
-from .data.micuentatf_data import micuentatf_data
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import update_session_auth_hash
 
-from .forms import CustomUserCreationForm, ConstruccionForm, UserUpdateForm, AnimalForm, LugarForm
+from .forms import CustomUserCreationForm, ConstruccionForm, UserUpdateForm, AnimalForm, LugarForm, EnemigoForm, FloraForm
 from django.contrib import messages
 from django.contrib.auth import logout
 
 
 # Importación de Modelos
-from .models import Construccion, Animal, Lugar
+from .models import Construccion, Animal, Lugar, Enemigo, Flora
 
 
 @login_required
@@ -29,14 +23,6 @@ def home(request):
 @login_required
 def animales(request):
     return render(request, "Animales.html", {"animales": animales_data})
-
-@login_required
-def enemigos(request):
-    return render(request, "Enemigos.html", {"enemigos": enemigos_data})
-
-@login_required
-def flora(request):
-    return render(request, "Flora.html", {"flora": flora_data})
 
 @login_required
 def armas(request):
@@ -277,3 +263,80 @@ def eliminar_lugar(request, lugar_id):
     lugar.delete()
     messages.success(request, "Lugar eliminado correctamente.")
     return redirect("lugares_view")
+
+@login_required
+def enemigos(request):
+    enemigos = Enemigo.objects.all()
+    edit_mode = request.GET.get("edit") == "true"
+    return render(request, "enemigos.html", {"enemigos": enemigos, "edit_mode": edit_mode})
+
+@user_passes_test(lambda u: u.is_staff)
+def crear_enemigo(request):
+    if request.method == "POST":
+        form = EnemigoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "¡Enemigo creado exitosamente!")
+            return redirect("enemigos")
+    else:
+        form = EnemigoForm()
+    return render(request, "crear_enemigo.html", {"form": form})
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_enemigo(request, enemigo_id):
+    enemigo = get_object_or_404(Enemigo, id=enemigo_id)
+    if request.method == "POST":
+        form = EnemigoForm(request.POST, request.FILES, instance=enemigo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Enemigo actualizado correctamente.")
+            return redirect("enemigos")
+    else:
+        form = EnemigoForm(instance=enemigo)
+    return render(request, "editar_enemigo.html", {"form": form, "enemigo": enemigo})
+
+@user_passes_test(lambda u: u.is_staff)
+def eliminar_enemigo(request, enemigo_id):
+    enemigo = get_object_or_404(Enemigo, id=enemigo_id)
+    enemigo.delete()
+    messages.success(request, "Enemigo eliminado correctamente.")
+    return redirect("enemigos")
+
+@login_required
+def flora(request):
+    plantas = Flora.objects.all()
+    edit_mode = request.GET.get("edit") == "true"
+    return render(request, "flora.html", {"flora": plantas, "edit_mode": edit_mode})
+
+@user_passes_test(lambda u: u.is_staff)
+def crear_flora(request):
+    if request.method == "POST":
+        form = FloraForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Planta creada exitosamente.")
+            return redirect("flora")
+    else:
+        form = FloraForm()
+    return render(request, "crear_flora.html", {"form": form})
+
+@user_passes_test(lambda u: u.is_staff)
+def editar_flora(request, flora_id):
+    planta = get_object_or_404(Flora, id=flora_id)
+    if request.method == "POST":
+        form = FloraForm(request.POST, request.FILES, instance=planta)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Planta actualizada correctamente.")
+            return redirect("flora")
+    else:
+        form = FloraForm(instance=planta)
+    return render(request, "editar_flora.html", {"form": form, "planta": planta})
+
+@user_passes_test(lambda u: u.is_staff)
+def eliminar_flora(request, flora_id):
+    planta = get_object_or_404(Flora, id=flora_id)
+    planta.delete()
+    messages.success(request, "Planta eliminada correctamente.")
+    return redirect("flora")
+

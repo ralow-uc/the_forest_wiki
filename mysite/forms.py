@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from mysite.models import Construccion, Animal, Lugar
+from mysite.models import Construccion, Animal, Lugar, Enemigo, Flora
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -61,6 +61,28 @@ class LugarForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+
+class EnemigoForm(forms.ModelForm):
+    class Meta:
+        model = Enemigo
+        fields = '__all__'
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
+
+class FloraForm(forms.ModelForm):
+    class Meta:
+        model = Flora
+        fields = '__all__'
+        widgets = {
+            'numero': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'imagen': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }

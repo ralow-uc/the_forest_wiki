@@ -1,10 +1,7 @@
 from django.urls import path
 from .views import (
     home,
-    animales,
     enemigos,
-    construcciones,
-    flora,
     armas,
     consumibles,
     historia,
@@ -14,9 +11,11 @@ from .views import (
     recuperarcontra,
     registrase,
     cerrar_sesion,
+    construcciones,
     eliminar_construccion,
     editar_construccion,
     crear_construccion,
+    animales,
     eliminar_animal,
     editar_animal,
     crear_animal,
@@ -24,6 +23,13 @@ from .views import (
     crear_lugar,
     editar_lugar,
     eliminar_lugar,
+    crear_enemigo,
+    editar_enemigo,
+    eliminar_enemigo,
+    flora,
+    crear_flora,
+    editar_flora,
+    eliminar_flora,
 )
 
 urlpatterns = [
@@ -51,5 +57,12 @@ urlpatterns = [
     path('lugares/crear', crear_lugar, name='crear_lugar'),
     path('lugares/editar/<int:lugar_id>', editar_lugar, name='editar_lugar'),
     path('lugares/eliminar/<int:lugar_id>', eliminar_lugar, name='eliminar_lugar'),
-    
+    path("enemigos", enemigos, name="enemigos"),
+    path("enemigos/crear", crear_enemigo, name="crear_enemigo"),
+    path("enemigos/editar/<int:enemigo_id>", editar_enemigo, name="editar_enemigo"),
+    path("enemigos/eliminar/<int:enemigo_id>", eliminar_enemigo, name="eliminar_enemigo"),
+    path("flora", flora, name="flora"),
+    path("flora/crear", crear_flora, name="crear_flora"),
+    path("flora/editar/<int:flora_id>", editar_flora, name="editar_flora"),
+    path("flora/eliminar/<int:flora_id>", eliminar_flora, name="eliminar_flora"),
 ]
